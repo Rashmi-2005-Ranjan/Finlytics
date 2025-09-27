@@ -33,7 +33,6 @@ public class ProfileService {
         newProfile = profileRepository.save ( newProfile );
         //Send Activation Email Here
         String activationLink = "http://localhost:8080/api/v1.0/activate?token=" + newProfile.getActivationToken ( );
-        System.out.println ( "Activation Token: " + newProfile.getActivationToken ( ) );
         String subject = "Activate Your Finlytics Account";
         String body = "Click On The Following Link To Activate Your Account: " + activationLink;
         emailService.sendEmail ( newProfile.getEmail ( ) , subject , body );
