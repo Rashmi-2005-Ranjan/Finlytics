@@ -7,6 +7,7 @@ import com.finlytics.api.Repository.ProfileRepository;
 import com.finlytics.api.Util.JwtUtil;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,12 +28,15 @@ public class ProfileService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
+    @Value("${app.activation.url}")
+    private String activationUrl;
+
     public ProfileDTO registerProfile(ProfileDTO profileDTO) throws MessagingException {
         ProfileEntity newProfile = convertToEntity ( profileDTO );
         newProfile.setActivationToken ( UUID.randomUUID ( ).toString ( ) );
         newProfile = profileRepository.save ( newProfile );
         //Send Activation Email Here
-        String activationLink = "http://localhost:8080/api/v1.0/activate?token=" + newProfile.getActivationToken ( );
+        String activationLink = activationUrl+"/api/v1.0/activate?token=" + newProfile.getActivationToken ( );
         String subject = "Activate Your Finlytics Account";
         String body = "Click On The Following Link To Activate Your Account: " + activationLink;
         emailService.sendEmail ( newProfile.getEmail ( ) , subject , body );
