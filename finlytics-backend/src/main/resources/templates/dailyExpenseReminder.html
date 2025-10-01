@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Daily Expense Summary - FinLytics</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; color: #333;">
+<div style="max-width: 600px; margin: auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+    <h2>Hello, <span th:text="${name}">User</span> 👋</h2>
+
+    <p style="font-size: 16px;">
+        Here’s your total expense for today (<b th:text="${date}"></b>):
+    </p>
+
+    <p style="font-size: 18px; font-weight: bold; color: #e53935;">
+        ₹<span th:text="${expense}">0</span>
+    </p>
+
+    <h3 style="margin-top: 20px;">Expenses Breakdown:</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Amount (₹)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exp : ${expenses}">
+            <td th:text="${exp.name}">Sample Name</td>
+            <td th:text="${exp.categoryName}">Sample Category</td>
+            <td th:text="${exp.amount}">0</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p style="font-size: 16px; margin-top: 20px;">
+        ✍️ Don’t forget to add any remaining expenses for today to keep your records up-to-date.
+    </p>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <a th:href="${dashboardUrl}"
+           style="background: #007bff; color: #fff; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+            ➡️ Add Today’s Expense
+        </a>
+    </div>
+
+    <p style="font-size: 14px; color: #777; text-align: center;">
+        Keep tracking! — The <b>FinLytics</b> Team 🚀
+    </p>
+</div>
+</body>
+</html>
