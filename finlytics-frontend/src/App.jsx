@@ -1,5 +1,9 @@
 const App = () =>{
-  return <h1>APP COMPONENT</h1>
+  return (
+      <div className="bg-blue-700">
+            Hello World!
+      </div>
+  )
 }
 
 export default App;
