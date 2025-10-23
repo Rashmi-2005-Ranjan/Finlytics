@@ -47,7 +47,12 @@ const IncomeList = ({transactions, onDelete}) => {
     return (
         <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
-                <h5 className="text-xl font-semibold text-gray-800">Income Sources</h5>
+                <div className="flex items-center gap-2">
+                    <h5 className="text-xl font-semibold text-gray-800">Income Sources</h5>
+                    <span className="text-sm text-green-600 bg-green-100 px-3 py-1 rounded-full font-medium">
+                        {transactions?.length || 0} {transactions?.length === 1 ? 'Transaction' : 'Transactions'}
+                    </span>
+                </div>
                 <div className="flex items-center gap-2">
                     <button
                         disabled={emailing}
