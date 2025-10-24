@@ -6,6 +6,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -97,4 +98,28 @@ public class EmailService {
             throw new RuntimeException ( "Failed to send daily expense email" , e );
         }
     }
+
+    public void sendEmailWithAttachment(String to, String subject, String body, byte[] attachment, String filename) throws MessagingException {
+        // Prepare the Thymeleaf context
+        Context context = new Context();
+        context.setVariable("email", to);
+        context.setVariable("subject", subject);
+        context.setVariable("body", body);
+
+        // Use an HTML template
+        String process = templateEngine.process("sendEmailAttachment", context);
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom(fromEmail);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(process, true);
+        helper.addAttachment(filename, new ByteArrayResource(attachment));
+
+        mailSender.send(message);
+    }
+
+
 }
